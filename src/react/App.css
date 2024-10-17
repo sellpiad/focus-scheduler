@@ -1,0 +1,32 @@
+#root,
+body,
+html {
+  font-family: DNFBitBitv2;
+  background: transparent !important;
+  background-color: transparent !important;
+  border-radius: 5px;
+  border: 0px;
+}
+
+.App {
+  width: 400px;
+  height: 500px;
+  overflow: hidden;
+  padding-right: 5px;
+  padding-left: 5px;
+  border: 2px solid gray;
+  border-radius: 5px;
+  background-color: white;
+}
+
+@font-face {
+  font-family: "DNFBitBitv2";
+  font-weight: normal;
+  src: url("./font/DNFBitBitv2.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: 'WantedSans';
+  font-weight: bolder;
+  src: url('./font/WantedSansStd-Black.otf') format('truetype')
+}

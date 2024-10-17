@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es6",              // 변환할 ECMAScript 버전
+    "module": "CommonJS",         // CommonJS 모듈 사용
+    "jsx": "react",               // JSX 사용 설정
+    "strict": true,               // 엄격한 타입 검사
+    "esModuleInterop": true,      // ES 모듈과의 호환성
+    "skipLibCheck": true,          // 라이브러리 파일 검사 생략
+    "outDir": "./build/dist"
+  },
+  "include": ["src/electron/**/*", "src/electron/preload.js"], // 포함할 파일
+  "exclude": ["node_modules"]   // 제외할 파일
+}
