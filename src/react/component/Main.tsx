@@ -1,11 +1,13 @@
 import { tasks_v1 } from "googleapis";
 import React, { useEffect, useReducer, useRef, useState } from "react";
-import { CloseButton, Col, Container, Row, Stack } from "react-bootstrap";
-import { BsArrowClockwise, BsPlusLg, BsTrophy } from "react-icons/bs";
-import ActiveModal from "./ActiveModal";
+import { CloseButton, Col, Container, OverlayTrigger, Row, Stack, Tooltip } from "react-bootstrap";
+import { BsArrowClockwise, BsCalendar2Day, BsCardList, BsClipboardPlus, BsCloudPlus, BsPlusLg, BsTrophy } from "react-icons/bs";
+import ActionTask from "./ActionTask";
 import './Main.css';
 import SimpPicker from "./SimpPicker";
-import ActionTask from "./ActionTask";
+import TaskModal from "./TaskModal";
+
+type ListFilter = 'needsAction' | 'completed'
 
 // 초기 상태
 const initialState: tasks_v1.Schema$Task[] = [];
@@ -53,6 +55,7 @@ export default function Main() {
 
     const [serverStat, setServerStat] = useState<string>()
 
+    const [listFilter, setListFilter] = useState<ListFilter>('needsAction')
 
     const start = useRef<number>(0)
     const end = useRef<number>(0)
@@ -109,8 +112,6 @@ export default function Main() {
     // 작업 업데이트
     const updateTask = (updatedTask: tasks_v1.Schema$Task) => {
         dispatch({ type: 'UPDATE_TASK', updatedTask });
-
-
     };
 
 
@@ -125,7 +126,7 @@ export default function Main() {
     // 작업 아이템 클릭
     const clickItem = (task: tasks_v1.Schema$Task) => {
 
-        if (task == selectedItem) {
+        if (task.id == selectedItem.id) {
             setSelectedItem({ id: undefined })
         } else {
             setSelectedItem(task)
@@ -183,26 +184,23 @@ export default function Main() {
     return (
         <Container fluid>
             <Stack gap={2}>
-                <Row className='drag-region' style={{ paddingLeft: '0px', fontSize: '0.8rem' }}>
-                    <Col className='col' xs={8}>
-                        <strong style={{ fontFamily: 'WantedSans' }}>Scheduler</strong>
+
+                <Row className='title-bar'>
+                    <Col className="title" xs={8}>
+                        <strong >Scheduler</strong>
                     </Col>
-                    <Col className='col' xs={3}>
-                        <button className={`fix-btn no-drag-region ${isWindowTop ? 'clicked' : ''}`} onClick={() => toggleFixWindow()}>상단고정</button>
+                    <Col className='fix-btn' xs={3}>
+                        <button className={`${isWindowTop ? 'clicked' : ''}`} onClick={() => toggleFixWindow()}>상단고정</button>
                     </Col>
-                    <Col className='col exit-btn' xs={1}>
-                        <CloseButton type="button" className="no-drag-region" onClick={()=>exitProgram()} />
+                    <Col className='exit-btn' xs={1}>
+                        <CloseButton type="button" onClick={() => exitProgram()} />
                     </Col>
                 </Row>
-                <Row style={{ height: '100px' }}>
-                    <Col xs={12}
+
+                <Row className='control-area'>
+                    <Col className='timezone' xs={12}
                         onMouseEnter={() => setIsHover(true)}
-                        onMouseLeave={() => setIsHover(false)}
-                        style={{
-                            textAlign: "center",
-                            alignSelf: "center",
-                            fontSize: '1.3rem'
-                        }}>
+                        onMouseLeave={() => setIsHover(false)}>
                         {!isHover ? <Row>
                             <strong>{availTime}</strong>
                         </Row> :
@@ -227,39 +225,68 @@ export default function Main() {
                             </Row>}
                     </Col>
                 </Row>
-                <Row>
-                    <Col xs={5} style={{ paddingLeft: '18px' }}>
+
+                <Row className='task-bar'>
+                    <Col className='title' xs={5}>
                         <strong>목록</strong>
                     </Col>
-                    <Col xs={7} style={{ display: 'flex', justifyContent: 'flex-end', gap: '5px' }}>
-                        <BsPlusLg className="item-btn" type="button" onClick={() => addTask()} />
-                        <BsTrophy className="item-btn" type="button" />
-                        <BsArrowClockwise className="item-btn" type="button" onClick={() => syncTasks()} />
+                    <Col className='control-box' xs={7}>
+
+                        {listFilter === 'needsAction' && <>
+                            <OverlayTrigger placement="bottom" overlay={<Tooltip>작업 추가</Tooltip>}>
+                                <div>
+                                    <BsPlusLg className="control-btn" type="button" onClick={() => addTask()} />
+                                </div>
+                            </OverlayTrigger>
+                            <OverlayTrigger placement="bottom" overlay={<Tooltip>완료 목록</Tooltip>}>
+                                <div>
+                                    <BsTrophy className="control-btn" type="button" onClick={() => setListFilter('completed')} />
+                                </div>
+                            </OverlayTrigger>
+                        </>}
+
+                        {listFilter === 'completed' &&
+                            <OverlayTrigger placement="bottom" overlay={<Tooltip>작업 목록</Tooltip>}>
+                                <div>
+                                    <BsCardList className="control-btn" type="button" onClick={() => setListFilter('needsAction')} />
+                                </div>
+                            </OverlayTrigger>}
+
+                        <OverlayTrigger placement="bottom" overlay={<Tooltip>동기화</Tooltip>}>
+                            <div>
+                                <BsCloudPlus className="control-btn" type="button" onClick={() => syncTasks()} />
+                            </div>
+                        </OverlayTrigger>
                     </Col>
                 </Row>
-                <Row>
-                    <Col xs={12} style={{ overflow: 'scroll', scrollbarWidth: 'none', maxHeight: '250px' }}>
-                        {list.length > 0 ?
-                            Array.from(list).map((value, index) => {
-                                return <ActionTask key={`actionList + ${index}`}
+
+                <Row className='task-list'>
+
+                    {list.length > 0 &&
+                        Array.from(list)
+                            .filter(task => task.status === listFilter)
+                            .map((value, index) => {
+                                return <ActionTask key={`actionList + ${value.id}`}
                                     task={value}
                                     updateTask={updateTask}
                                     isFocused={selectedItem.id == value.id ? true : false}
                                     onFocus={() => clickItem(value)}
                                     showModal={() => handleModal(value)} />
-                            }) :
-                            <div className='content-nothing'>
-                                <h2>NOTHING</h2>
-                                <span>할 일 목록을 추가보세요.</span>
-                            </div>}
-                    </Col>
-                </Row>
-                <Row>
-                    {serverStat}
-                </Row>
-            </Stack >
+                            })}
 
-            <ActiveModal show={showModal} onHide={() => { setShowModal(false) }} task={list.filter(task => task.id === selectedItem.id).at(0)} updateTask={updateTask} deleteTask={deleteTask}></ActiveModal>
+                    {list.length == 0 &&
+                        <div className='nothing'>
+                            <h2>NOTHING</h2>
+                            <span>할 일 목록을 추가보세요.</span>
+                        </div>}
+                </Row>
+            </Stack>
+
+            <TaskModal show={showModal}
+                onHide={() => { setShowModal(false) }}
+                task={list.filter(task => task.id === selectedItem.id).at(0)}
+                updateTask={updateTask}
+                deleteTask={deleteTask} />
         </Container >
     )
 }

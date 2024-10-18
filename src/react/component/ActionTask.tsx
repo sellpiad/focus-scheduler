@@ -1,8 +1,12 @@
 import { tasks_v1 } from 'googleapis';
-import React, { Children, useEffect, useRef, useState } from "react";
-import { BsAlarmFill, BsArrowCounterclockwise, BsPencilFill, BsTrophyFill } from "react-icons/bs";
-import './Active.css';
+import React, { useEffect, useRef, useState } from "react";
+import { BsAlarmFill, BsArrowCounterclockwise, BsCheckLg, BsPencilFill, BsTrophyFill } from "react-icons/bs";
 import { formatTime } from '../util/converter';
+import './ActionTask.css';
+
+// ActionTask 컴포넌트 애니메이션 종류
+type AnimationType = 'slide-in-right' | 'slide-in-left' | undefined
+type TaskStatus = 'needsAction' | 'completed'
 
 interface TaskProps {
     task: tasks_v1.Schema$Task // 작업 객체
@@ -23,9 +27,9 @@ export default function ActionTask({ task, updateTask, isFocused, onFocus, showM
     /**
      * UI 관련 state
      */
-    const [background, setBackground] = useState<string>()
     const [isHover, setIsHover] = useState<boolean>(false)
 
+    const [animationType, setAnimationType] = useState<AnimationType>(undefined)
 
     /**
      * 시간 관련 state
@@ -43,18 +47,41 @@ export default function ActionTask({ task, updateTask, isFocused, onFocus, showM
     const aniNum = useRef<number>(0) // requestAnimationFrame 핸들 넘버
     const lastUpdateTime = useRef<number>(Date.now()) // 마지막으로 작업 시간 업데이트 한 시간
 
+    //작업 삭제 및 완료 관련 메소드
+    const handleComplete = () => {
+
+        const completedTask: tasks_v1.Schema$Task = { ...task, status: 'completed' }
+
+        setAnimationType('slide-in-right')
+
+        setTimeout(() => {
+            updateTask(completedTask)
+        }, 1600)
+
+    }
+
+    const handleReturn = () => {
+        const retunTask: tasks_v1.Schema$Task = { ...task, status: 'needsAction' }
+
+        setAnimationType('slide-in-left')
+
+        setTimeout(() => {
+            updateTask(retunTask)
+        }, 1000)
+
+    }
 
     /**
      * UI 관련 메소드
      */
 
     const handleMouseEnter = () => {
-        setBackground('#e1e1e1')
+
         setIsHover(true)
     }
 
     const handleMouseLeave = () => {
-        setBackground('transparent')
+
         setIsHover(false)
     }
 
@@ -102,6 +129,7 @@ export default function ActionTask({ task, updateTask, isFocused, onFocus, showM
             setAccTime(JSON.parse(task.notes).time)
         }
 
+
     }, [task])
 
 
@@ -134,63 +162,33 @@ export default function ActionTask({ task, updateTask, isFocused, onFocus, showM
 
     return (
         <div
-            className='Active-item'
-            style={{ background: background }}
+            className={`ActionTask ${animationType}`}
             onMouseEnter={() => handleMouseEnter()}
-            onMouseLeave={() => handleMouseLeave()}
-        >
-            <div className='item-alram' onClick={onFocus}>
-                {isFocused && <BsAlarmFill className='jello-horizontal' />}
+            onMouseLeave={() => handleMouseLeave()}>
+
+            <div className={`status-box ${task.status} jello-horizontal`} onClick={(task.status === 'needsAction') ? onFocus : () => { }}>
+                {(task.status === 'needsAction' && isFocused) && <BsAlarmFill className='jello-vertical'/>}
+                {task.status === 'completed' && <BsCheckLg />}
             </div>
 
-            <input className='item-input' placeholder="Summary" type="text" value={title} onChange={(e) => setTitle(e.target.value)}></input>
+            <input
+                className='title-input'
+                placeholder="Summary"
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)} />
 
-            {isHover ?
-                <div className='item-btn-box'>
-                    <EditBtn showModal={showModal} />
-                    <CompleteBtn task={task} updateTask={updateTask} />
+            {!isHover ?
+                <div className='time-span'>
+                    <span>{formatTime(accTime)}</span>
                 </div>
                 :
-                <div className='item-time'>
-                    <span>{formatTime(accTime)}</span>
-                </div>}
-
+                <div className='control-btn-box'>
+                    <BsPencilFill className='control-btn' type="button" onClick={showModal} />
+                    {task.status === 'needsAction' && <BsTrophyFill className='control-btn' type="button" onClick={handleComplete} />}
+                    {task.status === 'completed' && <BsArrowCounterclockwise className='control-btn' type="button" onClick={handleReturn} />}
+                </div>
+            }
         </div>
     )
 }
-
-
-function EditBtn({ showModal }: { showModal: () => void }) {
-    return (
-        <BsPencilFill className='item-btn' type="button" onClick={showModal} />
-    )
-}
-
-function CompleteBtn({ task, updateTask }: TaskProps) {
-
-    //작업 삭제 및 완료 관련 메소드
-    const handleComplete = () => {
-        const completedTask: tasks_v1.Schema$Task = { ...task, status: 'completed' }
-
-        updateTask(completedTask)
-    }
-
-    return (
-        <BsTrophyFill className='item-btn' type="button" onClick={handleComplete} />
-    )
-}
-
-function ReturnBtn({ task, updateTask }: TaskProps) {
-
-    // 작업을 액티브로 전환
-    const handleReturn = () => {
-        const completedTask: tasks_v1.Schema$Task = { ...task, status: 'needsAction' }
-
-        updateTask(completedTask)
-    }
-
-    return (
-        <BsArrowCounterclockwise className='item-btn' type="button" onClick={handleReturn} />
-    )
-}
-

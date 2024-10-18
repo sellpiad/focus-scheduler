@@ -7,7 +7,7 @@ import { addTask, batchUpdate, deleteTask, getList, updateTask } from './googleT
 let browserWindow: BrowserWindow | null = null; 
 
 app.on("ready", () => {
-  
+
   createWindow();
 
   /**
@@ -75,7 +75,7 @@ app.on("ready", () => {
 
 function createWindow() {
   browserWindow = new BrowserWindow({
-    width: 400,
+    width: 1200,
     height: 500,
     frame: false,
     minimizable: true,

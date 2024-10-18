@@ -4,6 +4,7 @@ import { Col, Modal, ModalFooter, Row, Stack } from "react-bootstrap";
 import { BsArrowLeft, BsArrowRight, BsFillTrashFill, BsPlusLg, BsXLg } from "react-icons/bs";
 import { formatDate, formatTime } from "../util/converter";
 import SimpPicker from "./SimpPicker";
+import './TaskModal.css'
 
 interface Props {
     show: boolean,
@@ -13,7 +14,7 @@ interface Props {
     deleteTask: (taskId: string) => void
 }
 
-export default function ActiveModal({ show, onHide, task, updateTask, deleteTask }: Props) {
+export default function TaskModal({ show, onHide, task, updateTask, deleteTask }: Props) {
 
     const [title, setTitle] = useState<string>()
     const [notes, setNotes] = useState<string>()
@@ -64,7 +65,7 @@ export default function ActiveModal({ show, onHide, task, updateTask, deleteTask
     return (
         <Modal centered show={show} onHide={onHide}>
             <Modal.Body className='modal-content' style={{ fontFamily: 'WantedSans', fontWeight: 'bolder' }}>
-                <Row style={{ height: '5vh', marginBottom: '3px' }}>
+                <Row style={{ height: '5vh', marginBottom: '3px', overflow:'hidden'}}>
                     <Col xs={9}>
                         <h4>{title}</h4>
                     </Col>
