@@ -1,11 +1,12 @@
 import { tasks_v1 } from "googleapis";
 import React, { useEffect, useReducer, useRef, useState } from "react";
 import { CloseButton, Col, Container, OverlayTrigger, Row, Stack, Tooltip } from "react-bootstrap";
-import { BsArrowClockwise, BsCalendar2Day, BsCardList, BsClipboardPlus, BsCloudPlus, BsPlusLg, BsTrophy } from "react-icons/bs";
+import { BsCardList, BsCloudPlus, BsPlusLg, BsTrophy } from "react-icons/bs";
 import ActionTask from "./ActionTask";
 import './Main.css';
 import SimpPicker from "./SimpPicker";
 import TaskModal from "./TaskModal";
+import { formatDate, formatTime } from "../util/converter";
 
 type ListFilter = 'needsAction' | 'completed'
 
@@ -118,7 +119,7 @@ export default function Main() {
     // 작업 배치 업데이트
     const syncTasks = async () => {
         await window.electron.batchUpdate(list).then((res) => {
-            console.log("성공")
+            setServerStat(formatDate(new Date().toISOString()))
         })
     }
 
@@ -279,6 +280,10 @@ export default function Main() {
                             <h2>NOTHING</h2>
                             <span>할 일 목록을 추가보세요.</span>
                         </div>}
+                </Row>
+
+                <Row className='server-status'>
+                    <span className='sync'>마지막 동기화: {serverStat}</span>
                 </Row>
             </Stack>
 

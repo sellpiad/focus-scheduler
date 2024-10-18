@@ -8,8 +8,14 @@ interface Props {
 export default function Login({ setLogin }: Props) {
 
     const handleLogin = async (): Promise<void> => {
+
+        const CLIENT_ID = process.env.REACT_APP_CLIENT_ID
+        const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET
+
+        console.log(CLIENT_ID)
+
         try {
-            const isLogin: boolean = await window.electron.loginWithGoogle();
+            const isLogin: boolean = await window.electron.loginWithGoogle(CLIENT_ID,CLIENT_SECRET);
             setLogin(isLogin); // 로그인 상태 업데이트
         } catch (error) {
             console.error('로그인 과정에서 오류 발생:', error);

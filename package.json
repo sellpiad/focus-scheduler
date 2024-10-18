@@ -2,8 +2,9 @@
   "author": "devsun",
   "description": "Control your focus.",
   "name": "focus-scheduler",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "private": true,
+  "homepage": "./",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -12,7 +13,6 @@
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
-    "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "focus-scheduler": "file:",
     "gapi-script": "^1.2.0",
@@ -53,7 +53,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "copy-files": "copyfiles -u 2 src/electron/preload.js build/dist/",
-    "electron": "tsc && npm run copy-files && electron .",
+    "electron": "tsc && npm run copy-files && cross-env NODE_ENV=development electron .",
     "dist": "electron-builder -c.extraMetadata.main=build/dist/main.js"
   },
   "eslintConfig": {
@@ -79,8 +79,10 @@
     "@types/gapi.auth2": "^0.0.61",
     "@types/node": "^22.7.5",
     "copyfiles": "^2.4.1",
+    "cross-env": "^7.0.3",
     "electron": "^32.1.2",
     "electron-builder": "^25.1.8",
+    "serve": "^14.2.4",
     "ts-node": "^10.9.2"
   }
 }

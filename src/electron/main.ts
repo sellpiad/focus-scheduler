@@ -4,7 +4,7 @@ import path from 'path'; // CommonJS 대신 ES 모듈 방식으로 가져오기
 import { handleGoogleLogin } from './googleLogin'; // .ts 확장자 없이 가져오기
 import { addTask, batchUpdate, deleteTask, getList, updateTask } from './googleTasks';
 
-let browserWindow: BrowserWindow | null = null; 
+let browserWindow: BrowserWindow | null = null;
 
 app.on("ready", () => {
 
@@ -14,13 +14,13 @@ app.on("ready", () => {
    * 구글 인증
    */
 
-  ipcMain.on('google-login-request', async (event) => {
+  ipcMain.on('google-login-request', async (event,CLIENT_ID:string, CLIENT_SECRET:string) => {
     try {
-      const result: boolean = await handleGoogleLogin();
-      event.reply('google-login-response', result); 
+      const result: boolean = await handleGoogleLogin(CLIENT_ID,CLIENT_SECRET);
+      event.reply('google-login-response', result);
     } catch (error) {
       console.error('로그인 오류:', error);
-      event.reply('google-login-response', false); 
+      event.reply('google-login-response', false);
     }
   });
 
@@ -73,23 +73,35 @@ app.on("ready", () => {
 
 });
 
+
 function createWindow() {
   browserWindow = new BrowserWindow({
-    width: 1200,
+    width: 400,
     height: 500,
     frame: false,
     minimizable: true,
     resizable: false,
     transparent: true,
     webPreferences: {
-      preload: path.join(__dirname,'preload.js'),
+      preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
       contextIsolation: true,
     },
   });
 
+  const isDev = process.env.NODE_ENV == 'development'
 
-  browserWindow.loadURL('http://localhost:3000')
+  console.log(process.env.NODE_ENV + ' LEVEL')
+
+  if(isDev){
+   
+    browserWindow.loadURL('http://localhost:3000')
+  } else{
+    browserWindow.loadFile(path.join(__dirname, '../index.html'))
+  }
+
+
+ 
 }
 
 

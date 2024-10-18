@@ -8,6 +8,6 @@
     "skipLibCheck": true,          // 라이브러리 파일 검사 생략
     "outDir": "./build/dist"
   },
-  "include": ["src/electron/**/*", "src/electron/preload.js"], // 포함할 파일
+  "include": ["src/electron/**/*"], // 포함할 파일
   "exclude": ["node_modules"]   // 제외할 파일
 }

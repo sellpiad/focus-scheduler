@@ -3,21 +3,14 @@ import express, { Request, Response } from "express";
 import { OAuth2Client } from "google-auth-library";
 import { google } from "googleapis";
 import { setOAuth } from './googleTasks';
-import dotenv from 'dotenv'
 
-dotenv.config();
-
-const CLIENT_ID = process.env.CLIENT_ID
-const CLIENT_SECRET = process.env.CLIENT_SECRET
 const REDIRECT_URI = 'http://localhost:3000/callback';
 const SCOPES = ['https://www.googleapis.com/auth/tasks'];
 
 let oauth2Client: OAuth2Client;
 let accessToken: string | null | undefined = null;
 
-export const handleGoogleLogin = (): Promise<boolean> => {
-
-  
+export const handleGoogleLogin = (CLIENT_ID: string, CLIENT_SECRET: string): Promise<boolean> => {
 
   return new Promise((resolve, reject) => {
 

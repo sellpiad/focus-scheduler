@@ -3,9 +3,9 @@ const { contextBridge, ipcRenderer } = require('electron');
 contextBridge.exposeInMainWorld('electron', {
   toggleFixWindow: () => ipcRenderer.invoke('toggle-fix-window'),
   getAllWindows: () => ipcRenderer.invoke('get-all-windows'),
-  loginWithGoogle: async () => {
+  loginWithGoogle: async (CLEINT_ID,CLEINT_SECRET) => {
     return new Promise((resolve, reject) => {
-      ipcRenderer.send('google-login-request'); 
+      ipcRenderer.send('google-login-request',CLEINT_ID,CLEINT_SECRET); 
 
       ipcRenderer.once('google-login-response', (event, result) => {
         resolve(result); 
