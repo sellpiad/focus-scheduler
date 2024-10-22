@@ -1,8 +1,8 @@
 import { tasks_v1 } from 'googleapis';
 import React, { useEffect, useRef, useState } from "react";
 import { BsAlarmFill, BsArrowCounterclockwise, BsCheckLg, BsPencilFill, BsTrophyFill } from "react-icons/bs";
-import { formatTime } from '../util/converter';
-import './ActionTask.css';
+import { formatTime } from '../../util/converter';
+import './Task.css';
 
 // ActionTask 컴포넌트 애니메이션 종류
 type AnimationType = 'slide-in-right' | 'slide-in-left' | undefined
@@ -19,10 +19,10 @@ interface FocusProps {
 }
 
 interface Props extends TaskProps, FocusProps {
-    showModal: () => void
+    selectTask: () => void // 해당 작업을 확인
 }
 
-export default function ActionTask({ task, updateTask, isFocused, onFocus, showModal }: Props) {
+export default function Task({ task, updateTask, isFocused, onFocus, selectTask }: Props) {
 
     /**
      * UI 관련 state
@@ -167,16 +167,13 @@ export default function ActionTask({ task, updateTask, isFocused, onFocus, showM
             onMouseLeave={() => handleMouseLeave()}>
 
             <div className={`status-box ${task.status} jello-horizontal`} onClick={(task.status === 'needsAction') ? onFocus : () => { }}>
-                {(task.status === 'needsAction' && isFocused) && <BsAlarmFill className='jello-vertical'/>}
+                {(task.status === 'needsAction' && isFocused) && <BsAlarmFill className='jello-vertical' />}
                 {task.status === 'completed' && <BsCheckLg />}
             </div>
 
-            <input
+            <span
                 className='title-input'
-                placeholder="Summary"
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)} />
+                onClick={selectTask}>{title}</span>
 
             {!isHover ?
                 <div className='time-span'>
@@ -184,7 +181,6 @@ export default function ActionTask({ task, updateTask, isFocused, onFocus, showM
                 </div>
                 :
                 <div className='control-btn-box'>
-                    <BsPencilFill className='control-btn' type="button" onClick={showModal} />
                     {task.status === 'needsAction' && <BsTrophyFill className='control-btn' type="button" onClick={handleComplete} />}
                     {task.status === 'completed' && <BsArrowCounterclockwise className='control-btn' type="button" onClick={handleReturn} />}
                 </div>

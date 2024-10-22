@@ -1,0 +1,21 @@
+
+/*컨트롤 영역 및 하부 요소*/
+
+.timezone{
+    height: 100px
+}
+
+.timezone .settings {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 1.5rem;
+}
+
+.timezone .time {
+    text-align: center;
+    align-self: center;
+    font-size: 1.3rem;
+}

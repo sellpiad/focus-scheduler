@@ -1,0 +1,17 @@
+.task-list {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap:2px;
+    overflow: scroll;
+    scrollbar-width: none;
+}
+
+.task-list .nothing {
+    border-radius: '5px';
+    width: 100%;
+    text-align: center;
+    align-content: center;
+    background-color: 'black';
+    color: 'wheat'
+}

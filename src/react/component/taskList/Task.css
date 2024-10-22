@@ -49,6 +49,10 @@
     border: 0px;
 }
 
+.ActionTask .title-input:hover{
+    cursor:pointer;
+}
+
 /*컨트롤 버튼*/
 
 .ActionTask .control-btn-box {
@@ -81,7 +85,7 @@
     justify-content: end;
     align-content: end;
     font-style: italic;
-    font-size: 0.7rem;
+    font-size: 0.6rem;
     color: green;
     padding-right: 3px;
 }

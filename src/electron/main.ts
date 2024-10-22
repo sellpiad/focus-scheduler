@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain, IpcMainInvokeEvent } from 'electron';
 import { tasks_v1 } from 'googleapis';
 import path from 'path'; // CommonJS 대신 ES 모듈 방식으로 가져오기
 import { handleGoogleLogin } from './googleLogin'; // .ts 확장자 없이 가져오기
-import { addTask, batchUpdate, deleteTask, getList, updateTask } from './googleTasks';
+import { addTask, batchUpdate, deleteTask, getList, getProjectList, updateTask } from './googleTasks';
 
 let browserWindow: BrowserWindow | null = null;
 
@@ -14,15 +14,25 @@ app.on("ready", () => {
    * 구글 인증
    */
 
-  ipcMain.on('google-login-request', async (event,CLIENT_ID:string, CLIENT_SECRET:string) => {
-    try {
-      const result: boolean = await handleGoogleLogin(CLIENT_ID,CLIENT_SECRET);
-      event.reply('google-login-response', result);
-    } catch (error) {
-      console.error('로그인 오류:', error);
-      event.reply('google-login-response', false);
-    }
+  ipcMain.on('google-login-request', async (event, CLIENT_ID: string, CLIENT_SECRET: string) => {
+
+    if (!browserWindow)
+      return;
+
+    const result: boolean = await handleGoogleLogin(CLIENT_ID, CLIENT_SECRET);
+    event.reply('google-login-response', result);
+
   });
+
+  /**
+   * 프로젝트 CRUD
+   */
+
+  ipcMain.on('get-projectList-request', async (event) => {
+    console.log("테스트")
+    const projectList: tasks_v1.Schema$TaskLists | undefined = await getProjectList()
+    event.reply('get-projectList-response', projectList)
+  })
 
   /**
    * 작업 CRUD
@@ -71,16 +81,25 @@ app.on("ready", () => {
     return fixWindowTop()
   })
 
+  ipcMain.handle('set-minimize-window', () => {
+    return minimizeWindow()
+  })
+
+  ipcMain.handle('toggle-maximize-window', () => {
+    return toggleMaximizeRestore()
+  })
+
 });
 
 
 function createWindow() {
   browserWindow = new BrowserWindow({
-    width: 400,
+    width: 1200,
     height: 500,
+    minWidth: 500,
+    minHeight: 500,
     frame: false,
     minimizable: true,
-    resizable: false,
     transparent: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -91,17 +110,12 @@ function createWindow() {
 
   const isDev = process.env.NODE_ENV == 'development'
 
-  console.log(process.env.NODE_ENV + ' LEVEL')
-
-  if(isDev){
-   
+  if (isDev) {
     browserWindow.loadURL('http://localhost:3000')
-  } else{
+  } else {
     browserWindow.loadFile(path.join(__dirname, '../index.html'))
   }
 
-
- 
 }
 
 
@@ -114,3 +128,19 @@ function fixWindowTop() {
   return !isAlwaysOnTop
 }
 
+function minimizeWindow() {
+
+  browserWindow?.minimize()
+}
+
+function toggleMaximizeRestore() {
+
+  if (!browserWindow)
+    return;
+
+  if (browserWindow.isMaximized()) {
+    browserWindow.unmaximize()
+  } else {
+    browserWindow.maximize()
+  }
+}

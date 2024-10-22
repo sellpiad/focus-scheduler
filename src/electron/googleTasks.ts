@@ -7,8 +7,20 @@ const taskListTitle = 'Focus-Scheduler'
 let tasks: tasks_v1.Tasks
 let activeList: tasks_v1.Schema$TaskList | undefined
 
+// API 인증 토큰 설정
 export const setOAuth = (oAuth2Client: OAuth2Client) => {
     tasks = google.tasks({ version: 'v1', auth: oAuth2Client });
+}
+
+// 프로젝트 리스트 가져오기
+export const getProjectList = async (): Promise<tasks_v1.Schema$TaskLists | undefined> => {
+
+    try {
+        const res = await tasks.tasklists.list()
+        return res.data
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export const initList = async (): Promise<tasks_v1.Schema$TaskList | undefined> => {

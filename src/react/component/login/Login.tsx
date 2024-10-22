@@ -12,7 +12,11 @@ export default function Login({ setLogin }: Props) {
         const CLIENT_ID = process.env.REACT_APP_CLIENT_ID
         const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET
 
-        console.log(CLIENT_ID)
+        if(!CLIENT_ID || !CLIENT_SECRET){
+            console.log('인증키 오류!')
+            return ;
+        }
+           
 
         try {
             const isLogin: boolean = await window.electron.loginWithGoogle(CLIENT_ID,CLIENT_SECRET);
@@ -28,9 +32,6 @@ export default function Login({ setLogin }: Props) {
 
     return (
         <div className="drag-region">
-            <div style={{display:'flex',justifyContent:'flex-end'}}>
-                <CloseButton type="button" className="no-drag-region" onClick={() => exitProgram()} />
-            </div>
             <div style={{ textAlign: 'center', paddingTop: '20px' }}>
                 <h3 style={{ textDecoration: 'underline' }}>Focus </h3>
                 <h3>Scheduler</h3>

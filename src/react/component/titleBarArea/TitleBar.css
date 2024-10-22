@@ -1,0 +1,59 @@
+/*타이틀바 및 하부 요소*/
+
+.title-bar {
+    height: 30px;
+    user-select: none;
+    -webkit-app-region: drag;
+    font-size: 0.8rem;
+    padding-right: calc(var(--bs-gutter-x)* .5);
+    padding-left: calc(var(--bs-gutter-x)* .5);
+}
+
+/*타이틀*/
+
+.title-bar .title {
+    padding-top: 3px;
+    font-family: 'WantedSans';
+}
+
+/*상단 고정 버튼*/
+
+.title-bar .fix-btn {
+    display: flex;
+    justify-content: flex-end;
+    -webkit-app-region: no-drag;
+}
+
+.fix-btn button {
+    font-size: 0.7rem;
+    font-family: DNFBitBitv2;
+    border: 0px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    transition: background-color 0.2s ease;
+}
+
+.fix-btn button.clicked {
+    background-color: dodgerblue;
+}
+
+/*프로그램 종료 버튼*/
+
+.title-bar .control-box {
+    display:flex;
+    gap:5px;
+    align-items: center;
+    justify-content: end;
+    padding-right: 1px;
+    -webkit-app-region: no-drag;
+}
+
+.control-box .minimize-btn{
+    width: 20px;
+    height: 20px;
+}
+
+.control-box .maximize-btn{
+    width: 13px;
+    height: 13px;
+}

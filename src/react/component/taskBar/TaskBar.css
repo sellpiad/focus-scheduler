@@ -1,0 +1,29 @@
+/*작업바 및 하부 요소*/
+
+.project-bar {
+    height: 26px;
+}
+
+.project-bar .title {
+    
+}
+
+.project-bar .control-box {
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.control-box .control-btn {
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 2px;
+    padding-left: 4px;
+    padding-right: 4px;
+    font-size: 1.6rem;
+}
+
+.control-btn:hover {
+    background: rgb(255, 255, 255);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.35);
+}
