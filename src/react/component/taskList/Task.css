@@ -95,6 +95,10 @@
     padding-right: 3px;
 }
 
+.Task .on-focus{
+    color: #0d6efd;
+}
+
 /*애니메이션 효과*/
 
 .jello-horizontal {

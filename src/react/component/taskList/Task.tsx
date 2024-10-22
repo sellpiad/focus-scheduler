@@ -177,7 +177,7 @@ export default function Task({ task, updateTask, isFocused, onFocus, selectTask 
 
 
             {!isHover ?
-                <div className='time-span'>
+                <div className={`${isFocused ? 'on-focus ': ''} time-span`}>
                     <span>{formatTime(accTime)}</span>
                 </div>
                 :

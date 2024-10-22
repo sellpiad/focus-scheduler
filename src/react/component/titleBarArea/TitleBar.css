@@ -21,7 +21,6 @@
 .title-bar .fix-btn {
     display: flex;
     justify-content: flex-end;
-    -webkit-app-region: no-drag;
 }
 
 .fix-btn button {
@@ -31,6 +30,7 @@
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     transition: background-color 0.2s ease;
+    -webkit-app-region: no-drag;
 }
 
 .fix-btn button.clicked {
@@ -45,6 +45,9 @@
     align-items: center;
     justify-content: end;
     padding-right: 1px;
+}
+
+.title-bar .control-box svg, button{
     -webkit-app-region: no-drag;
 }
 
