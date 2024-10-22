@@ -4,7 +4,7 @@ import { BsAlarmFill, BsArrowCounterclockwise, BsCheckLg, BsPencilFill, BsTrophy
 import { formatTime } from '../../util/converter';
 import './Task.css';
 
-// ActionTask 컴포넌트 애니메이션 종류
+// Task 컴포넌트 애니메이션 종류
 type AnimationType = 'slide-in-right' | 'slide-in-left' | undefined
 type TaskStatus = 'needsAction' | 'completed'
 
@@ -162,7 +162,7 @@ export default function Task({ task, updateTask, isFocused, onFocus, selectTask 
 
     return (
         <div
-            className={`ActionTask ${animationType}`}
+            className={`Task ${animationType}`}
             onMouseEnter={() => handleMouseEnter()}
             onMouseLeave={() => handleMouseLeave()}>
 
@@ -171,9 +171,10 @@ export default function Task({ task, updateTask, isFocused, onFocus, selectTask 
                 {task.status === 'completed' && <BsCheckLg />}
             </div>
 
-            <span
-                className='title-input'
-                onClick={selectTask}>{title}</span>
+            <div className='title' onClick={selectTask}>
+                <span>{title}</span>
+            </div>
+
 
             {!isHover ?
                 <div className='time-span'>

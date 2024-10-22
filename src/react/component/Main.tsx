@@ -1,13 +1,13 @@
 import { tasks_v1 } from "googleapis";
 import React, { useEffect, useReducer, useState } from "react";
 import { Col, Container, Row, Stack } from "react-bootstrap";
+import '../../electron/global.d';
 import { formatDate } from "../util/converter";
 import './Main.css';
 import ProjectBar from "./taskBar/TaskBar";
+import TaskEditor from "./taskEditor/TaskEditor";
 import TaskList from "./taskList/TaskList";
-import TaskArea from "./taskArea/TaskArea";
 import TimeZone from "./timezoneArea/TimeZone";
-import '../../electron/global.d'
 
 export type ListFilter = 'needsAction' | 'completed'
 
@@ -136,9 +136,9 @@ export default function Main() {
                     </Stack>
                 </Col>
                 <Col className='task-editor'>
-                    <TaskArea task={list.filter(task => task.id === selectedItem.id).at(0)}
+                    <TaskEditor task={list.filter(task => task.id === selectedItem.id).at(0)}
                         updateTask={updateTask}
-                        deleteTask={deleteTask}></TaskArea>
+                        deleteTask={deleteTask}></TaskEditor>
                 </Col>
             </Row>
         </Container >

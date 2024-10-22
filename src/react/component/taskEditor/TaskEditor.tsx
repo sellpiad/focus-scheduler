@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
-import './TaskArea.css'
+import './TaskEditor.css'
 import { tasks_v1 } from "googleapis";
 import { formatTime } from "../../util/converter";
 import { BsArrowLeft, BsFillTrashFill, BsFolder } from "react-icons/bs";
@@ -32,19 +32,20 @@ export default function TaskArea({ task, updateTask, deleteTask }: Props) {
 
         if (task?.notes) {
             setTitle(task.title ? task.title : '')
-            setNotes(task.notes ? JSON.parse(task.notes).notes : '')
+            setNotes(JSON.parse(task.notes).notes ? JSON.parse(task.notes).notes : '')
 
             const total = JSON.parse(task.notes).time
 
             if (total) {
                 setTime(formatTime(total))
             }
-
         }
+        
     }, [task])
 
     useEffect(() => {
         if (task) {
+            console.log("타이틀 변경")
             const updatedTask = {
                 ...task, title: title
             }

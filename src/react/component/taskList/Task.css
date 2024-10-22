@@ -1,6 +1,6 @@
-/*ActionTask*/
+/*Task*/
 
-.ActionTask {
+.Task {
     display: flex;
     width: 100%;
     height: 35px;
@@ -9,13 +9,13 @@
     align-items: center;
 }
 
-.ActionTask:hover {
+.Task:hover {
     background: #e1e1e1;
 }
 
 /*상태 표시 버튼(알람, 완료)*/
 
-.ActionTask .status-box {
+.Task .status-box {
     display: flex;
     width: 8%;
     height: 30px;
@@ -41,21 +41,26 @@
     background-color: #198754;
 }
 
-/*타이틀 인풋*/
+/*타이틀*/
 
-.ActionTask .title-input {
-    background-color: transparent;
+.Task .title {
+    display: flex;
+    align-items: center;
     width: 65%;
+    height: 100%;
+    background-color: transparent;
+    white-space: nowrap;
+    overflow: hidden;
     border: 0px;
 }
 
-.ActionTask .title-input:hover{
+.Task .title:hover{
     cursor:pointer;
 }
 
 /*컨트롤 버튼*/
 
-.ActionTask .control-btn-box {
+.Task .control-btn-box {
     display: flex;
     width: 25%;
     justify-content: end;
@@ -79,7 +84,7 @@
 
 /*시간 표시*/
 
-.ActionTask .time-span {
+.Task .time-span {
     display: flex;
     width: 25%;
     justify-content: end;
