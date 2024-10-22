@@ -1,24 +1,27 @@
-## Focus on what you're doing and work more efficiently.
+## Introduction
 
-### 효율적으로 시간을 관리하기 위한 스케줄러
+`작업마다 소요된 시간을 실시간으로 측정합니다.`
 
-`작업을 추가할 수 있고, 해당 작업에 소요된 시간을 측정합니다.`
+![screenshot](https://github.com/user-attachments/assets/4b9b8189-1e8c-45c1-8c9d-4ed139a60f00)
 
-### 실행방법
+최초 버전 개발기간: 2024.10.05 ~ 2024.10.17
 
-1. 루트 최상단 디렉토리에 .env 파일을 생성하여 아래 내용을 추가합니다.
 
+## Getting Started
+
+
+루트 최상단 디렉토리에 .env 파일을 생성하여 아래 내용을 추가합니다.
+```
 CLIENT_ID = YOUR GOOGLE ID
 CLIENT_SECRET = YOUR SECRET KEY
+```
 
-본 프로젝트는 작업 내용의 저장을 위해 구글 테스크 API를 사용하기 때문에 API키를 발급받으셔야 사용이 가능합니다.
+*본 프로젝트는 작업 내용의 저장을 위해 구글 테스크 API를 사용하기 때문에 API키를 발급받으셔야 사용이 가능합니다.*
 
-2. 실행
+이후 아래 커맨드를 차례로 입력하여 실행합니다.
 
-`npm install`
-`npm start`
-`npm run electron`
-
-해당 명령을 차례대로 실행합니다.
-
-이후 구글 로그인을 하고, 사용을 시작하면 됩니다.
+```bash
+npm install
+npm start
+npm run electron
+```
