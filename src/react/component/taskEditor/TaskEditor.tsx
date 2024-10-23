@@ -81,7 +81,7 @@ export default function TaskArea({ task, updateTask, deleteTask }: Props) {
                         </div>
                     </div>
                     <div className="time-bar">{time} 동안 집중 중...</div>
-                    {!setup && <textarea placeholder="Content" value={notes} onChange={(e) => setNotes(e.target.value)} />}
+                    {!setup && <textarea className='slide-in-blurred-right' placeholder="Content" value={notes} onChange={(e) => setNotes(e.target.value)} />}
                     {setup && <SettingAndDetail setup={setup} task={task} updateTask={updateTask} />}
                 </>}
 

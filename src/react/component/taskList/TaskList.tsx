@@ -12,9 +12,10 @@ interface Props {
     setTask: (value: tasks_v1.Schema$Task) => void
     clickItem: (value: tasks_v1.Schema$Task) => void
     updateTask: (value: tasks_v1.Schema$Task) => void
+    deleteTask: (value: string) => void
 }
 
-export default function TaskList({ list, listFilter, selectedItem, updateTask, clickItem, setTask }: Props) {
+export default function TaskList({ list, listFilter, selectedItem, updateTask, clickItem, setTask,deleteTask }: Props) {
     return (
         <Row className='task-list'>
 
@@ -27,7 +28,8 @@ export default function TaskList({ list, listFilter, selectedItem, updateTask, c
                             updateTask={updateTask}
                             isFocused={selectedItem.id == value.id ? true : false}
                             onFocus={() => clickItem(value)}
-                            selectTask={() => setTask(value)} />
+                            selectTask={() => setTask(value)}
+                            deleteTask={()=> deleteTask(value.id ? value.id : '')} />
                     })}
 
             {list.length == 0 &&

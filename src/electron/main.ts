@@ -1,3 +1,4 @@
+import { Integer } from './../../node_modules/boxen/node_modules/type-fest/source/numeric.d';
 import { app, BrowserWindow, ipcMain, IpcMainInvokeEvent } from 'electron';
 import { tasks_v1 } from 'googleapis';
 import path from 'path'; // CommonJS 대신 ES 모듈 방식으로 가져오기
@@ -130,7 +131,8 @@ function fixWindowTop() {
 
 function minimizeWindow() {
 
-  browserWindow?.minimize()
+  browserWindow?.minimize();
+
 }
 
 function toggleMaximizeRestore() {

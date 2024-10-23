@@ -4,7 +4,7 @@ import { Col, Container, Row, Stack } from "react-bootstrap";
 import '../../electron/global.d';
 import { formatDate } from "../util/converter";
 import './Main.css';
-import ProjectBar from "./taskBar/TaskBar";
+import TaskControlBar from "./taskControlBar/TaskControlBar";
 import TaskEditor from "./taskEditor/TaskEditor";
 import TaskList from "./taskList/TaskList";
 import TimeZone from "./timezoneArea/TimeZone";
@@ -118,10 +118,10 @@ export default function Main() {
     return (
         <Container className='main' fluid>
             <Row className='content-area'>
-                <Col className='settings'>
-                    <Stack gap={2} style={{ height: '100%' }}>
+                <Col className='d-none d-md-flex settings'>
+                    <Stack gap={2} className='stack'>
                         <TimeZone />
-                        <ProjectBar listFilter={listFilter} setListFilter={setListFilter} addTask={addTask} syncTasks={syncTasks} />
+                        <TaskControlBar listFilter={listFilter} setListFilter={setListFilter} addTask={addTask} syncTasks={syncTasks} />
                         <TaskList
                             list={list}
                             selectedItem={selectedItem}
@@ -129,6 +129,7 @@ export default function Main() {
                             clickItem={clickItem}
                             updateTask={updateTask}
                             setTask={setSelectedItem}
+                            deleteTask={deleteTask}
                         />
                         <Row className='server-status'>
                             <Col xs={8}>마지막 동기화:  {serverStat}</Col>

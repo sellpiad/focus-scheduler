@@ -9,17 +9,26 @@
 
 /*컨텐츠 영역*/
 .content-area {
+    display: flex;
     flex-grow: 1;
 }
 
 .content-area .settings {
+    display: flex;
+    flex-grow: 1;
     min-width: 330px;
     max-width: 330px;
-    height: 100%;
 }
+
+.content-area .settings .stack {
+    flex-grow: 1;
+    min-width: 330px;
+}
+
 
 .content-area .task-editor {
     display: flex;
+    min-width: 434px;
     flex-direction: column;
     flex-grow: 1;
     padding-top: 50px;
@@ -28,6 +37,12 @@
     padding-left: 50px;
 }
 
+
+@media (max-width:768px) {
+    .content-area .task-editor {
+        padding-top: 5px;
+    }
+}
 
 
 /*동기화 상황*/

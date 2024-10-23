@@ -1,12 +1,12 @@
 import { tasks_v1 } from 'googleapis';
 import React, { useEffect, useRef, useState } from "react";
-import { BsAlarmFill, BsArrowCounterclockwise, BsCheckLg, BsPencilFill, BsTrophyFill } from "react-icons/bs";
+import { BsAlarmFill, BsArrowCounterclockwise, BsCheckLg, BsFillEmojiDizzyFill, BsFillTrashFill, BsPencilFill, BsTrophyFill } from "react-icons/bs";
 import { formatTime } from '../../util/converter';
 import './Task.css';
 
 // Task 컴포넌트 애니메이션 종류
-type AnimationType = 'slide-in-right' | 'slide-in-left' | undefined
-type TaskStatus = 'needsAction' | 'completed'
+type AnimationType = 'slide-in-right-completed' | 'slide-in-right-deleted' | 'slide-in-left' | ''
+type TaskStatus = 'needsAction' | 'completed' | 'deleted' | string
 
 interface TaskProps {
     task: tasks_v1.Schema$Task // 작업 객체
@@ -20,16 +20,16 @@ interface FocusProps {
 
 interface Props extends TaskProps, FocusProps {
     selectTask: () => void // 해당 작업을 확인
+    deleteTask: () => void // 해당 작업을 삭제
 }
 
-export default function Task({ task, updateTask, isFocused, onFocus, selectTask }: Props) {
+export default function Task({ task, updateTask, isFocused, onFocus, selectTask, deleteTask }: Props) {
 
     /**
      * UI 관련 state
      */
     const [isHover, setIsHover] = useState<boolean>(false)
-
-    const [animationType, setAnimationType] = useState<AnimationType>(undefined)
+    const [animationType, setAnimationType] = useState<AnimationType>('')
 
     /**
      * 시간 관련 state
@@ -40,6 +40,7 @@ export default function Task({ task, updateTask, isFocused, onFocus, selectTask 
      * Data 관련 state
      */
     const [title, setTitle] = useState<string>('')
+    const [status, setStatus] = useState<TaskStatus>(task.status ? task.status : 'needsAction')
 
     /**
      * requestAnimation 용 Ref
@@ -47,12 +48,15 @@ export default function Task({ task, updateTask, isFocused, onFocus, selectTask 
     const aniNum = useRef<number>(0) // requestAnimationFrame 핸들 넘버
     const lastUpdateTime = useRef<number>(Date.now()) // 마지막으로 작업 시간 업데이트 한 시간
 
-    //작업 삭제 및 완료 관련 메소드
+    /** 
+    * 작업 삭제 및 완료 관련 메소드
+    */
     const handleComplete = () => {
 
         const completedTask: tasks_v1.Schema$Task = { ...task, status: 'completed' }
 
-        setAnimationType('slide-in-right')
+        setAnimationType('slide-in-right-completed')
+        setStatus('completed')
 
         setTimeout(() => {
             updateTask(completedTask)
@@ -64,11 +68,22 @@ export default function Task({ task, updateTask, isFocused, onFocus, selectTask 
         const retunTask: tasks_v1.Schema$Task = { ...task, status: 'needsAction' }
 
         setAnimationType('slide-in-left')
+        setStatus('needsAction')
 
         setTimeout(() => {
             updateTask(retunTask)
         }, 1000)
 
+    }
+
+    const handleDelete = () => {
+
+        setAnimationType('slide-in-right-deleted')
+        setStatus('deleted')
+
+        setTimeout(() => {
+            deleteTask()
+        }, 1000)
     }
 
     /**
@@ -106,7 +121,7 @@ export default function Task({ task, updateTask, isFocused, onFocus, selectTask 
     // UI 관련 업데이트
     useEffect(() => {
 
-        if (isFocused) {
+        if (status === 'needsAction' && isFocused) {
             lastUpdateTime.current = Date.now()
             aniNum.current = requestAnimationFrame(timer)
         } else {
@@ -128,7 +143,6 @@ export default function Task({ task, updateTask, isFocused, onFocus, selectTask 
         if (task && task.notes) {
             setAccTime(JSON.parse(task.notes).time)
         }
-
 
     }, [task])
 
@@ -166,9 +180,10 @@ export default function Task({ task, updateTask, isFocused, onFocus, selectTask 
             onMouseEnter={() => handleMouseEnter()}
             onMouseLeave={() => handleMouseLeave()}>
 
-            <div className={`status-box ${task.status} jello-horizontal`} onClick={(task.status === 'needsAction') ? onFocus : () => { }}>
-                {(task.status === 'needsAction' && isFocused) && <BsAlarmFill className='jello-vertical' />}
-                {task.status === 'completed' && <BsCheckLg />}
+            <div className={`status-box ${status} jello-horizontal`} onClick={(status === 'needsAction') ? onFocus : () => { }}>
+                {(status === 'needsAction' && isFocused) && <BsAlarmFill className='jello-vertical' />}
+                {(status === 'completed') && <BsCheckLg className='jello-vertical' />}
+                {(status === 'deleted') && <BsFillEmojiDizzyFill />}
             </div>
 
             <div className='title' onClick={selectTask}>
@@ -177,13 +192,14 @@ export default function Task({ task, updateTask, isFocused, onFocus, selectTask 
 
 
             {!isHover ?
-                <div className={`${isFocused ? 'on-focus ': ''} time-span`}>
+                <div className={`${isFocused ? 'on-focus' : ''} time-span`}>
                     <span>{formatTime(accTime)}</span>
                 </div>
                 :
                 <div className='control-btn-box'>
                     {task.status === 'needsAction' && <BsTrophyFill className='control-btn' type="button" onClick={handleComplete} />}
                     {task.status === 'completed' && <BsArrowCounterclockwise className='control-btn' type="button" onClick={handleReturn} />}
+                    <BsFillTrashFill className="control-btn" type="button" onClick={() => handleDelete()} />
                 </div>
             }
         </div>

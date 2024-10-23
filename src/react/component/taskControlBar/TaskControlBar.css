@@ -1,14 +1,14 @@
 /*작업바 및 하부 요소*/
 
-.project-bar {
+.task-control-bar {
     height: 26px;
 }
 
-.project-bar .title {
+.task-control-bar .title {
     
 }
 
-.project-bar .control-box {
+.task-control-bar .control-box {
     display: flex;
     justify-content: flex-end;
     gap: 5px;

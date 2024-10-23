@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { BsCardList, BsCloudPlus, BsPlusLg, BsTrophy } from "react-icons/bs";
-import './TaskBar.css'
+import './TaskControlBar.css'
 import { ListFilter } from "../Main";
 
 
@@ -12,10 +12,10 @@ interface Props {
     syncTasks: () => void
 }
 
-export default function ProjectBar({ listFilter, setListFilter, addTask, syncTasks }: Props) {
+export default function TaskControlBar({ listFilter, setListFilter, addTask, syncTasks }: Props) {
 
     return (
-        <Row className='project-bar'>
+        <Row className='task-control-bar'>
             <Col className='title' xs={5}>
                 <strong>작업 목록</strong>
             </Col>
