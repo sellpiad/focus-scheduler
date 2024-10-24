@@ -10,7 +10,7 @@ interface PickerProps {
 export default function SimpPicker({ title, gap, children }: PickerProps) {
 
     return (
-        <div className='simpPicker' style={{columnGap: gap && gap}}>
+        <div className='simpPicker' style={{ columnGap: gap && gap }}>
             {title && <div style={{
                 alignContent: "center",
                 fontWeight: 'bolder'
@@ -66,11 +66,11 @@ function Column({ value, onChange, children, style, unit }: ColumnProps) {
 
     }, [posY])
 
-    useEffect(()=>{
-        if(value){
-            setPosY(value*-36)
+    useEffect(() => {
+        if (value) {
+            setPosY(value * -36)
         }
-    },[])
+    }, [])
 
 
     return (
@@ -100,7 +100,7 @@ function Column({ value, onChange, children, style, unit }: ColumnProps) {
                     </div>
                 ))}
             </div>
-            {unit && <div style={{ fontWeight: 'bolder', fontSize: '1rem', marginTop: '6px', paddingLeft:'4px' }}>
+            {unit && <div style={{ fontWeight: 'bolder', marginTop: '2px', marginLeft: '10px' }}>
                 {unit}
             </div>}
 
@@ -109,10 +109,10 @@ function Column({ value, onChange, children, style, unit }: ColumnProps) {
 }
 
 interface ItemProps {
-    value:string
+    value: string
 }
 
-function Item({ value }:ItemProps) {
+function Item({ value }: ItemProps) {
     return (
         <>
             {value}

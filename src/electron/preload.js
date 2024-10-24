@@ -6,6 +6,7 @@ contextBridge.exposeInMainWorld('electron', {
   toggleFixWindow: () => ipcRenderer.invoke('toggle-fix-window'),
   toggleMaximizeWindow: () => ipcRenderer.invoke('toggle-maximize-window'),
   setMinimizeWindow: () => ipcRenderer.invoke('set-minimize-window'),
+  toggleWidgetMode: () => ipcRenderer.invoke('toggle-widget-mode'),
  
   exit: () => {
     ipcRenderer.send('exit')

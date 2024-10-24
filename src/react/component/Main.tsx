@@ -8,6 +8,7 @@ import TaskControlBar from "./taskControlBar/TaskControlBar";
 import TaskEditor from "./taskEditor/TaskEditor";
 import TaskList from "./taskList/TaskList";
 import TimeZone from "./timezoneArea/TimeZone";
+import { BsBorderWidth } from "react-icons/bs";
 
 export type ListFilter = 'needsAction' | 'completed'
 
@@ -49,6 +50,8 @@ export default function Main() {
     const [serverStat, setServerStat] = useState<string>()
 
     const [listFilter, setListFilter] = useState<ListFilter>('needsAction')
+
+    const [onSide, setOnSide] = useState<boolean>(false)
 
 
 
@@ -117,8 +120,10 @@ export default function Main() {
 
     return (
         <Container className='main' fluid>
+            <BsBorderWidth type='button' className='task-list-toggle-btn' onClick={() => setOnSide(prev => !prev)} />
             <Row className='content-area'>
-                <Col className='d-none d-md-flex settings'>
+
+                <Col className={`${onSide ? '' : 'd-none d-md-flex'} settings`}>
                     <Stack gap={2} className='stack'>
                         <TimeZone />
                         <TaskControlBar listFilter={listFilter} setListFilter={setListFilter} addTask={addTask} syncTasks={syncTasks} />
@@ -136,7 +141,7 @@ export default function Main() {
                         </Row>
                     </Stack>
                 </Col>
-                <Col className='task-editor'>
+                <Col className={`${onSide ? 'd-none d-md-flex' : ''} task-editor`}>
                     <TaskEditor task={list.filter(task => task.id === selectedItem.id).at(0)}
                         updateTask={updateTask}
                         deleteTask={deleteTask}></TaskEditor>

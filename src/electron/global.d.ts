@@ -8,6 +8,7 @@ export interface ElectronAPI {
 
     /*윈도우 조작*/
     toggleFixWindow: () => Promise<any>
+    toggleWidgetMode: () => Promise<boolean>
     toggleMaximizeWindow: () => void
     setMinimizeWindow: () => void
 

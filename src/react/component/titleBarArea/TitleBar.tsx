@@ -14,7 +14,8 @@ import { BsDashLg, BsFront, BsFullscreen } from "react-icons/bs";
 
 export default function TitleBar() {
 
-    const [isWindowTop, setIsWindowTop] = useState<boolean>()
+    const [isWindowTop, setIsWindowTop] = useState<boolean>(false)
+    const [isWidgetMode, setWidgetMode] = useState<boolean>(false)
 
     // 윈도우 고정
     const toggleFixWindow = async () => {
@@ -27,19 +28,35 @@ export default function TitleBar() {
             })
     }
 
+    // 위젯모드(width: 300px, height: 100px)
+    const toggleWidgetMode = async () => {
+        window.electron.toggleWidgetMode()
+            .then((status) => {
+                setWidgetMode(status)
+            }).catch((err) => {
+                console.error(err)
+            })
+    }
+
+    const toggleMaximizeWindow = () => {
+        window.electron.toggleMaximizeWindow()
+        setWidgetMode(false)
+    }
+
 
     return (
 
         <Row className='title-bar'>
-            <Col className="title" xs={7}>
+            <Col className="title" xs={4}>
                 <strong >Scheduler</strong>
             </Col>
-            <Col className='fix-btn' xs={3}>
-                <button className={`${isWindowTop ? 'clicked' : ''}`} onClick={() => toggleFixWindow()} >상단고정</button>
-            </Col>
-            <Col className='control-box' xs={2}>
+            <Col className='control-box' xs={8}>
+                <div className='btn-box'>
+                    <button className={`${isWindowTop ? 'clicked' : ''}`} onClick={() => toggleFixWindow()} >상단고정</button>
+                    <button className={`${isWidgetMode ? 'clicked' : ''}`} onClick={() => toggleWidgetMode()}>위젯모드</button>
+                </div>
                 <BsDashLg className='minimize-btn' type="button" onClick={() => window.electron.setMinimizeWindow()} />
-                <BsFront className='maximize-btn' type="button" onClick={() => window.electron.toggleMaximizeWindow()} />
+                <BsFront className='maximize-btn' type="button" onClick={() => toggleMaximizeWindow()} />
                 <CloseButton type="button" onClick={() => window.electron.exit()} />
             </Col>
         </Row>

@@ -90,6 +90,10 @@ app.on("ready", () => {
     return toggleMaximizeRestore()
   })
 
+  ipcMain.handle('toggle-widget-mode', () => {
+    return toggleWidgetMode()
+  })
+
 });
 
 
@@ -97,8 +101,8 @@ function createWindow() {
   browserWindow = new BrowserWindow({
     width: 1200,
     height: 500,
-    minWidth: 730,
-    minHeight: 500,
+    minWidth: 576,
+    minHeight: 636,
     frame: false,
     minimizable: true,
     transparent: true,
@@ -108,6 +112,7 @@ function createWindow() {
       contextIsolation: true,
     },
   });
+
 
   const isDev = process.env.NODE_ENV == 'development'
 
@@ -124,7 +129,7 @@ function fixWindowTop() {
 
   const isAlwaysOnTop = browserWindow?.isAlwaysOnTop()
 
-  browserWindow?.setAlwaysOnTop(!isAlwaysOnTop)
+  browserWindow?.setAlwaysOnTop(!isAlwaysOnTop, 'screen-saver')
 
   return !isAlwaysOnTop
 }
@@ -140,9 +145,31 @@ function toggleMaximizeRestore() {
   if (!browserWindow)
     return;
 
+  // 위젯 모드가 걸려있을 때를 대비해, 설정 초기화
+  browserWindow.setResizable(true)
+  browserWindow.setMinimumSize(576, 636);
+
   if (browserWindow.isMaximized()) {
     browserWindow.unmaximize()
   } else {
     browserWindow.maximize()
+  }
+}
+
+function toggleWidgetMode() {
+
+  if (!browserWindow)
+    return;
+
+  if (browserWindow.getSize()[0] === 300) {
+    browserWindow.setResizable(true)
+    browserWindow.setMinimumSize(576, 636);
+    browserWindow.setSize(576, 636, true)
+    return false;
+  } else {
+    browserWindow.setResizable(false)
+    browserWindow.setMinimumSize(300, 100)
+    browserWindow.setSize(300, 100, true)
+    return true;
   }
 }

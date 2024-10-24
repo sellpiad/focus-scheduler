@@ -9,7 +9,7 @@
 }
 
 /*시간 표시 바*/
-.Task-area .time-bar{
+.Task-area .time-bar {
     font-size: 0.7rem;
     margin-left: 5px;
 }
@@ -54,7 +54,7 @@ textarea::-webkit-scrollbar {
     border-radius: 5px;
 }
 
-::-webkit-scrollbar-thumb:hover  {
+::-webkit-scrollbar-thumb:hover {
     background-color: rgba(224, 118, 118, 0.329);
 }
 
@@ -103,6 +103,24 @@ textarea::-webkit-scrollbar {
     text-align: center;
     align-content: center;
 }
+
+
+/*위젯 모드*/
+
+@media (max-width:300px) {
+
+    .Task-area .nothing {
+        font-size: small;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .Task-area .task-title-bar input {
+        width: 95%;
+    }
+}
+
+
 
 /*애니메이션*/
 

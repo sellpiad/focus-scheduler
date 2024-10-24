@@ -3,7 +3,7 @@ import { Col, Row } from "react-bootstrap";
 import './TaskEditor.css'
 import { tasks_v1 } from "googleapis";
 import { formatTime } from "../../util/converter";
-import { BsArrowLeft, BsFillTrashFill, BsFolder } from "react-icons/bs";
+import { BsArrowLeft, BsBorderWidth, BsFillTrashFill, BsFolder } from "react-icons/bs";
 import SettingAndDetail from "./SettingAndDetail";
 
 interface Props {
@@ -67,12 +67,12 @@ export default function TaskArea({ task, updateTask, deleteTask }: Props) {
 
     return (
         <Row className="Task-area">
-
+            
             {task &&
                 <>
                     <div className="task-title-bar">
                         <input placeholder="Project Title" value={title} onChange={(e) => setTitle(e.target.value)}></input>
-                        <div className="btn-box">
+                        <div className="d-none d-sm-flex btn-box">
 
                             {setup && <BsArrowLeft className="btn" type="button" onClick={() => showSetup(false)} />}
                             {!setup && <BsFolder className="btn" type="button" onClick={() => showSetup(true)} />}
