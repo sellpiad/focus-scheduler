@@ -30,3 +30,8 @@ html {
   font-weight: bolder;
   src: url('./font/WantedSansStd-Black.otf') format('truetype')
 }
+
+@font-face {
+  font-family: 'NanumSquareNeo';
+  src: url(./font/NanumSquareNeo-Variable.ttf) format('truetype')
+}

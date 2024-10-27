@@ -92,12 +92,20 @@ export default function Main() {
 
 
     // 작업 아이템 클릭
-    const clickItem = (task: tasks_v1.Schema$Task) => {
+    const handleTimer = (task: tasks_v1.Schema$Task) => {
 
         if (task.id == selectedItem.id) {
             setSelectedItem({ id: undefined })
         } else {
             setSelectedItem(task)
+        }
+    }
+
+    const handleTask = (task: tasks_v1.Schema$Task) => {
+        setSelectedItem(task)
+
+        if(onSide){
+           setOnSide(false) 
         }
     }
 
@@ -131,9 +139,9 @@ export default function Main() {
                             list={list}
                             selectedItem={selectedItem}
                             listFilter={listFilter}
-                            clickItem={clickItem}
+                            onWork={handleTimer}
                             updateTask={updateTask}
-                            setTask={setSelectedItem}
+                            setTask={handleTask}
                             deleteTask={deleteTask}
                         />
                         <Row className='server-status'>
@@ -143,6 +151,7 @@ export default function Main() {
                 </Col>
                 <Col className={`${onSide ? 'd-none d-md-flex' : ''} task-editor`}>
                     <TaskEditor task={list.filter(task => task.id === selectedItem.id).at(0)}
+                        handleTimer={handleTimer}
                         updateTask={updateTask}
                         deleteTask={deleteTask}></TaskEditor>
                 </Col>

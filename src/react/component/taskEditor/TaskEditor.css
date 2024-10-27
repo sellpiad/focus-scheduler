@@ -10,9 +10,40 @@
 
 /*시간 표시 바*/
 .Task-area .time-bar {
+    display: flex;
+    align-items: center;
+    gap: 20px;
     font-size: 0.7rem;
     margin-left: 5px;
 }
+
+.Task-area .time-bar .time {
+    width: 65%;
+}
+
+.Task-area .time-bar .control-box {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 10px;
+    width: 30%;
+    gap:5px;
+}
+
+.Task-area .time-bar .control-box .time-btn{
+    border: 1px solid rgba(165, 163, 163, 0.575);
+    border-radius: 5px;
+    padding-left: 3px;
+    padding-right: 3px;
+    width: 26px;
+    height: 17px;
+}
+
+.Task-area .time-bar .control-box .time-btn:hover{
+    background-color: #e1e1e1;
+}
+
+
+
 
 /*작업 에디터*/
 
@@ -102,6 +133,42 @@ textarea::-webkit-scrollbar {
     padding-bottom: 20px;
     text-align: center;
     align-content: center;
+}
+
+/*에디터 서포터*/
+.Editor-suppoter {
+    display:none;
+    font-family: 'WantedSans';
+    position: absolute;
+    width:300px;
+    height:30px;
+    align-items: center;
+    gap:2px;
+    border: 0px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 11px #5b5a5a;
+}
+
+.Editor-suppoter .color-picker {
+    height: 24px;
+    width: 24px;
+    padding: 4px;
+    outline: none;
+    border: 0px;
+    border-radius: 10px;
+}
+
+.Editor-suppoter button{
+    width: 24px;
+    height: 24px;
+    border: 0;
+    border-radius: 5px;
+    background-color: transparent;
+}
+
+.Editor-suppoter button:hover{
+    background-color: #e1e1e1;
 }
 
 

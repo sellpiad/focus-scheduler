@@ -10,12 +10,12 @@ interface Props {
     listFilter: ListFilter
     selectedItem: tasks_v1.Schema$Task
     setTask: (value: tasks_v1.Schema$Task) => void
-    clickItem: (value: tasks_v1.Schema$Task) => void
+    onWork: (value: tasks_v1.Schema$Task) => void
     updateTask: (value: tasks_v1.Schema$Task) => void
     deleteTask: (value: string) => void
 }
 
-export default function TaskList({ list, listFilter, selectedItem, updateTask, clickItem, setTask,deleteTask }: Props) {
+export default function TaskList({ list, listFilter, selectedItem, updateTask, onWork, setTask,deleteTask }: Props) {
     return (
         <Row className='task-list'>
 
@@ -26,8 +26,8 @@ export default function TaskList({ list, listFilter, selectedItem, updateTask, c
                         return <ActionTask key={`actionList + ${value.id}`}
                             task={value}
                             updateTask={updateTask}
-                            isFocused={selectedItem.id == value.id ? true : false}
-                            onFocus={() => clickItem(value)}
+                            isWorking={selectedItem.id == value.id ? true : false}
+                            onWork={() => onWork(value)}
                             selectTask={() => setTask(value)}
                             deleteTask={()=> deleteTask(value.id ? value.id : '')} />
                     })}

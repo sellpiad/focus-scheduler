@@ -12,11 +12,11 @@
 
 루트 최상단 디렉토리에 .env 파일을 생성하여 아래 내용을 추가합니다.
 ```
-CLIENT_ID = YOUR GOOGLE ID
-CLIENT_SECRET = YOUR SECRET KEY
+REACT_APP_CLIENT_ID = YOUR GOOGLE ID
+REACT_APP_CLIENT_SECRET = YOUR SECRET KEY
 ```
 
-*본 프로젝트는 작업 내용의 저장을 위해 구글 테스크 API를 사용하기 때문에 API키를 발급받으셔야 사용이 가능합니다.*
+*본 프로젝트는 작업 내용의 저장을 위해 구글 테스크 API를 사용하기 때문에 API키를 발급받으셔야 사용이 가능합니다. 키를 입력하지 않았거나, 유효하지 않은 키가 입력된 상태에서는 로그인 버튼이 반응하지 않습니다!*
 
 이후 아래 커맨드를 차례로 입력하여 실행합니다.
 

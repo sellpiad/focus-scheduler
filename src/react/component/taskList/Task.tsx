@@ -13,17 +13,17 @@ interface TaskProps {
     updateTask: (item: tasks_v1.Schema$Task) => void // 작업 업데이트
 }
 
-interface FocusProps {
-    isFocused: boolean // 해당 작업을 작업 중인지, 아닌지.
-    onFocus: () => void // 해당 작업을 포커스
+interface TimerProps {
+    isWorking: boolean 
+    onWork: () => void 
 }
 
-interface Props extends TaskProps, FocusProps {
+interface Props extends TaskProps, TimerProps {
     selectTask: () => void // 해당 작업을 확인
     deleteTask: () => void // 해당 작업을 삭제
 }
 
-export default function Task({ task, updateTask, isFocused, onFocus, selectTask, deleteTask }: Props) {
+export default function Task({ task, updateTask, isWorking, onWork, selectTask, deleteTask }: Props) {
 
     /**
      * UI 관련 state
@@ -121,7 +121,7 @@ export default function Task({ task, updateTask, isFocused, onFocus, selectTask,
     // UI 관련 업데이트
     useEffect(() => {
 
-        if (status === 'needsAction' && isFocused) {
+        if (status === 'needsAction' && isWorking) {
             lastUpdateTime.current = Date.now()
             aniNum.current = requestAnimationFrame(timer)
         } else {
@@ -130,7 +130,7 @@ export default function Task({ task, updateTask, isFocused, onFocus, selectTask,
 
         return () => { cancelAnimationFrame(aniNum.current) }
 
-    }, [isFocused])
+    }, [isWorking])
 
 
     // Task 관련 업데이트
@@ -144,7 +144,7 @@ export default function Task({ task, updateTask, isFocused, onFocus, selectTask,
             setAccTime(JSON.parse(task.notes).time)
         }
 
-    }, [task])
+    }, [])
 
 
     // Title 관련 업데이트
@@ -180,8 +180,8 @@ export default function Task({ task, updateTask, isFocused, onFocus, selectTask,
             onMouseEnter={() => handleMouseEnter()}
             onMouseLeave={() => handleMouseLeave()}>
 
-            <div className={`status-box ${status} jello-horizontal`} onClick={(status === 'needsAction') ? onFocus : () => { }}>
-                {(status === 'needsAction' && isFocused) && <BsAlarmFill className='jello-vertical' />}
+            <div className={`status-box ${status} jello-horizontal`} onClick={(status === 'needsAction') ? onWork : () => { }}>
+                {(status === 'needsAction' && isWorking) && <BsAlarmFill className='jello-vertical' />}
                 {(status === 'completed') && <BsCheckLg className='jello-vertical' />}
                 {(status === 'deleted') && <BsFillEmojiDizzyFill />}
             </div>
@@ -192,7 +192,7 @@ export default function Task({ task, updateTask, isFocused, onFocus, selectTask,
 
 
             {!isHover ?
-                <div className={`${isFocused ? 'on-focus' : ''} time-span`}>
+                <div className={`${isWorking ? 'on-focus' : ''} time-span`}>
                     <span>{formatTime(accTime)}</span>
                 </div>
                 :
