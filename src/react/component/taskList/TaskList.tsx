@@ -18,7 +18,6 @@ interface Props {
 export default function TaskList({ list, listFilter, selectedItem, updateTask, onWork, setTask,deleteTask }: Props) {
     return (
         <Row className='task-list'>
-
             {list.length > 0 &&
                 Array.from(list)
                     .filter(task => task.status === listFilter)

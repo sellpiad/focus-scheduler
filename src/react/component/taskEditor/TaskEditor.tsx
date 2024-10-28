@@ -88,14 +88,14 @@ export default function TaskArea({ task, handleTimer, updateTask, deleteTask }: 
                         </div>
                     </div>
                     <div className="time-bar">
-                        <div className="time">{formatTime(JSON.parse(task.notes ? task.notes : `{time:''}`).time)} 동안 집중 중...</div>
+                        <div className="time">{formatTime(JSON.parse(task.notes ? task.notes : '{"time":""}').time)} 동안 집중 중...</div>
                         {/*<div className="d-sm-none control-box">
                             <BsFillPlayFill className='time-btn' type="button" onClick={() => handleTimer(task)} />
                             <BsFillPauseFill className='time-btn' type="button" onClick={() => handleTimer(task)} />
                             <BsStopwatch className='time-btn' type="button" />
                         </div>*/}
                     </div>
-                    {!setup && <textarea className='slide-in-blurred-right' placeholder="Content" value={JSON.parse(task.notes ? task.notes : `{notes:''}`).notes} onChange={(e) => updateNotes(e.target.value)}
+                    {!setup && <textarea className='slide-in-blurred-right' placeholder="Content" value={JSON.parse(task.notes ? task.notes : '{"notes":""}').notes} onChange={(e) => updateNotes(e.target.value)}
                         onMouseUp={handleTextSelection}
                     />}
                     {setup && <SettingAndDetail setup={setup} task={task} updateTask={updateTask} />}
