@@ -42,6 +42,18 @@ export default function TaskArea({ task, handleTimer, updateTask, deleteTask }: 
 
     }
 
+    const getNotes = () => {
+        if (task && task.notes) {
+
+            const parser = JSON.parse(task.notes)
+
+            const notes = parser.notes
+
+            return notes
+        }
+
+    }
+
     const updateTitle = (title: string) => {
         const updatedTask = {
             ...task, title: title
@@ -95,7 +107,7 @@ export default function TaskArea({ task, handleTimer, updateTask, deleteTask }: 
                             <BsStopwatch className='time-btn' type="button" />
                         </div>*/}
                     </div>
-                    {!setup && <textarea className='slide-in-blurred-right' placeholder="Content" value={JSON.parse(task.notes ? task.notes : '{"notes":""}').notes} onChange={(e) => updateNotes(e.target.value)}
+                    {!setup && <textarea className='slide-in-blurred-right' placeholder="Content" value={getNotes()} onChange={(e) => updateNotes(e.target.value)}
                         onMouseUp={handleTextSelection}
                     />}
                     {setup && <SettingAndDetail setup={setup} task={task} updateTask={updateTask} />}
@@ -108,6 +120,10 @@ export default function TaskArea({ task, handleTimer, updateTask, deleteTask }: 
                 </div>
             }
 
+            <div className="task-info">
+                <span className="nc-title">글자수 </span>
+                <span className="nc-count">{getNotes().length}</span>
+            </div>
             {/*<EditorSuppoter isShow={isSuppoter} top={suppoterTop} left={suppoterLeft} setText={setSelectionText} />*/}
         </Row>
     )

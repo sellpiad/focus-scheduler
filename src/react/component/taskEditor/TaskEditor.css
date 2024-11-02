@@ -123,7 +123,23 @@ textarea::-webkit-scrollbar {
     background: #e1e1e1;
 }
 
-/*데이터 없음*/
+/* 작업 정보 */
+.Task-area .task-info {
+    display: flex;
+    justify-content: end;
+    font-size: small;
+    color: #5b5a5a;
+}
+
+.task-info .nc-title {
+    flex: 0 1 50px
+}
+
+.task-info .nc-count {
+    flex: 0 1 60px
+}
+
+/* 데이터 없음 */
 
 .Task-area .nothing {
     width: 250px;
