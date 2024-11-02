@@ -50,6 +50,8 @@ export default function TaskArea({ task, handleTimer, updateTask, deleteTask }: 
             const notes = parser.notes
 
             return notes
+        } else {
+            return ''
         }
 
     }
@@ -120,10 +122,10 @@ export default function TaskArea({ task, handleTimer, updateTask, deleteTask }: 
                 </div>
             }
 
-            <div className="task-info">
+            {task && <div className="task-info">
                 <span className="nc-title">글자수 </span>
                 <span className="nc-count">{getNotes().length}</span>
-            </div>
+            </div>}
             {/*<EditorSuppoter isShow={isSuppoter} top={suppoterTop} left={suppoterLeft} setText={setSelectionText} />*/}
         </Row>
     )
