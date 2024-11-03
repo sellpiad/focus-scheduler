@@ -1,0 +1,128 @@
+/* 로그인 화면 */
+
+.Login {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    -webkit-app-region: drag;
+}
+
+/* 타이틀 */
+
+.Login .title {
+    flex: 0 0 100px;
+    text-align: center;
+    user-select: none;
+    padding-top: 20px;
+}
+
+/* 로그인 */
+
+.Login .login-area {
+    flex: 1 1 auto;
+    display: flex;
+    height: 300px;
+    padding-top: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-area button {
+    height: 40px;
+    -webkit-app-region: no-drag;
+    border: 0;
+    background: white;
+}
+
+/* 하단 */
+
+.Login .bottom {
+    display: flex;
+    -webkit-app-region: no-drag;
+    align-items: center;
+    padding: 3px;
+    padding-left: 7px;
+    flex: 0 0 54px;
+    overflow: hidden;
+    gap:3px
+}
+
+.bottom .key-btn {
+    border: 1px solid gray;
+    border-radius: 5px;
+    height: 50px;
+    padding-left: 1px;
+    padding-right: 1px;
+    font-size: 1.6rem;
+}
+
+/* API 키 입력창 */
+
+.api-setup-window {
+    display: flex;
+    height: 50px;
+    gap: 5px;
+}
+
+.api-setup-window form{
+    display: flex;
+    
+}
+
+.api-setup-window button {
+    font-size: 0.5rem;
+}
+
+.api-setup-window .input-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap:1px
+}
+
+.api-setup-window .input-group {
+    height: 25px;
+}
+
+.api-setup-window .input-group span, input{
+    font-size: 0.5rem !important;
+}
+
+.scale-in-left {
+	-webkit-animation: scale-in-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: scale-in-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+ @-webkit-keyframes scale-in-left {
+    0% {
+      -webkit-transform: scale(0);
+              transform: scale(0);
+      -webkit-transform-origin: 0% 50%;
+              transform-origin: 0% 50%;
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+      -webkit-transform-origin: 0% 50%;
+              transform-origin: 0% 50%;
+      opacity: 1;
+    }
+  }
+  @keyframes scale-in-left {
+    0% {
+      -webkit-transform: scale(0);
+              transform: scale(0);
+      -webkit-transform-origin: 0% 50%;
+              transform-origin: 0% 50%;
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+      -webkit-transform-origin: 0% 50%;
+              transform-origin: 0% 50%;
+      opacity: 1;
+    }
+  }
+  

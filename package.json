@@ -2,7 +2,7 @@
   "author": "devsun",
   "description": "Control your focus.",
   "name": "focus-scheduler",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "private": true,
   "homepage": "./",
   "dependencies": {

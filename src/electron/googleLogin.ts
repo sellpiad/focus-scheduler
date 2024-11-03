@@ -10,7 +10,7 @@ const SCOPES = ['https://www.googleapis.com/auth/tasks'];
 let oauth2Client: OAuth2Client;
 let accessToken: string | null | undefined = null;
 
-export const handleGoogleLogin = (CLIENT_ID:string, CLIENT_SECRET:string): Promise<boolean> => {
+export const handleGoogleLogin = (CLIENT_ID: string, CLIENT_SECRET: string): Promise<boolean> => {
 
   return new Promise((resolve, reject) => {
 

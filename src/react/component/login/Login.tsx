@@ -1,25 +1,32 @@
-import React from "react";
-import { CloseButton } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, Form, InputGroup } from "react-bootstrap";
+import { BsFillKeyFill } from "react-icons/bs";
+import './Login.css';
 
 interface Props {
     setLogin: (isLogin: boolean) => void
 }
 
+const CLIENT_ID = process.env.REACT_APP_CLIENT_ID || ''
+const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET || ''
+
 export default function Login({ setLogin }: Props) {
+
+    const [showApiSetup, setShowApiSetup] = useState<boolean>(false)
+
+    const [id, setId] = useState<string>(CLIENT_ID)
+    const [key, setKey] = useState<string>(CLIENT_SECRET)
 
     const handleLogin = async (): Promise<void> => {
 
-        const CLIENT_ID = process.env.REACT_APP_CLIENT_ID
-        const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET
-
-        if(!CLIENT_ID || !CLIENT_SECRET){
+        if (!CLIENT_ID || !CLIENT_SECRET) {
             console.log('인증키 오류!')
-            return ;
+            return;
         }
-           
+
 
         try {
-            const isLogin: boolean = await window.electron.loginWithGoogle(CLIENT_ID,CLIENT_SECRET);
+            const isLogin: boolean = await window.electron.loginWithGoogle(id, key);
             setLogin(isLogin); // 로그인 상태 업데이트
         } catch (error) {
             console.error('로그인 과정에서 오류 발생:', error);
@@ -30,16 +37,40 @@ export default function Login({ setLogin }: Props) {
         window.electron.exit()
     }
 
+    const updateAuth = (e:React.FormEvent) => {
+        e.preventDefault()
+        setShowApiSetup(false)
+
+    }
+
     return (
-        <div className="drag-region">
-            <div style={{ textAlign: 'center', paddingTop: '20px' }}>
-                <h3 style={{ textDecoration: 'underline' }}>Focus </h3>
+        <div className="Login">
+            <div className="title">
+                <h3>Focus</h3>
                 <h3>Scheduler</h3>
             </div>
-            <div style={{ display: 'flex', height: '300px', paddingTop: '10px', justifyContent: 'center' }}>
-                <button className='no-drag-region' style={{ border: 0, background: 'white' }} onClick={handleLogin}>
+            <div className='login-area'>
+                <button onClick={handleLogin}>
                     <GoogleBtn></GoogleBtn>
                 </button>
+            </div>
+            <div className="bottom">
+                <BsFillKeyFill className="key-btn" type="button" onClick={() => setShowApiSetup(!showApiSetup)} />
+                {showApiSetup && <div className="api-setup-window scale-in-left">
+                    <Form onSubmit={(e)=>updateAuth(e)}>
+                        <div className="input-area">
+                            <InputGroup size="sm">
+                                <InputGroup.Text>ID</InputGroup.Text>
+                                <Form.Control placeholder="Google Client Id" onChange={(e) => setId(e.target.value)}></Form.Control>
+                            </InputGroup>
+                            <InputGroup size="sm">
+                                <InputGroup.Text>KEY</InputGroup.Text>
+                                <Form.Control placeholder="Google Secret key" onChange={(e) => setKey(e.target.value)}></Form.Control>
+                            </InputGroup>
+                        </div>
+                        <Button type="submit">Update</Button>
+                    </Form>
+                </div>}
             </div>
         </div>
     )
