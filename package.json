@@ -49,12 +49,12 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "copy-files": "copyfiles -u 2 src/electron/preload.js build/dist/",
-    "electron": "tsc && npm run copy-files && cross-env NODE_ENV=development electron .",
-    "dist": "electron-builder -c.extraMetadata.main=build/dist/main.js"
+    "electron": "cross-env NODE_ENV=development electron .",
+    "build": "react-scripts build && tsc && npm run copy-files",
+    "package": "electron-builder -c.extraMetadata.main=build/dist/main.js"
   },
   "eslintConfig": {
     "extends": [

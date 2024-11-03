@@ -43,16 +43,15 @@ export default function TaskArea({ task, handleTimer, updateTask, deleteTask }: 
     }
 
     const getNotes = () => {
+
         if (task && task.notes) {
 
             const parser = JSON.parse(task.notes)
 
             const notes = parser.notes
 
-            return notes
-        } else {
-            return ''
-        }
+            return notes ? notes : ''
+        } 
 
     }
 
@@ -124,7 +123,7 @@ export default function TaskArea({ task, handleTimer, updateTask, deleteTask }: 
 
             {task && <div className="task-info">
                 <span className="nc-title">글자수 </span>
-                <span className="nc-count">{getNotes() ? getNotes().length : 0}</span>
+                <span className="nc-count">{getNotes().length}</span>
             </div>}
             {/*<EditorSuppoter isShow={isSuppoter} top={suppoterTop} left={suppoterLeft} setText={setSelectionText} />*/}
         </Row>

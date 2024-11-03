@@ -84,7 +84,11 @@
     height: 25px;
 }
 
-.api-setup-window .input-group span, input{
+.api-setup-window .input-group span{
+    font-size: 0.5rem !important;
+}
+
+.api-setup-window .input-group input{
     font-size: 0.5rem !important;
 }
 
