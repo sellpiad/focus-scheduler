@@ -53,6 +53,8 @@ export default function TaskArea({ task, handleTimer, updateTask, deleteTask }: 
             return notes ? notes : ''
         } 
 
+        return ''
+
     }
 
     const updateTitle = (title: string) => {
